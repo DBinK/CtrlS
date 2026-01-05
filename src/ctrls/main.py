@@ -16,11 +16,14 @@ def run_autosave_service(interval: int):
     print(f"设定间隔: {interval} 秒")
     print("停止方法: Ctrl + C, 或关闭此终端窗口")
     print("----------------------------------------------------")
-    print("⚠️ 注意: 请务必【最小化】此终端窗口，或切换到其他软件")
-    print("如果焦点在终端窗口上, Ctrl+S 会暂停程序 (按 Ctrl+Q 恢复)")
+    print("⚠️  注意: 请务必【最小化】此终端窗口，或切换到其他软件")
+    print("如果焦点在终端窗口上, Ctrl+S 会暂停程序 (终端默认行为)")
+    print("----------------------------------------------------")
+    print("若日志卡住不刷新了, 点击终端任意位置 (移动焦点到终端), \n按任意键即可恢复, 然后切换到别的软件 (移动焦点到终端外)")
     print("----------------------------------------------------")
 
-
+    space_str = " " * 20
+    
     try:
         while True:
             # 1. 倒计时循环
@@ -30,18 +33,19 @@ def run_autosave_service(interval: int):
                 # end="": 不要输出换行符
                 # flush=True: 强制立即显示（防止输出被缓存）
                 # 字符串末尾留几个空格，是为了覆盖掉上一轮可能留下的长字符
-                print(f"\r⏳ 距离下次保存还有: {remaining} 秒   ", end="", flush=True)
+                print(f"\r{space_str}", end="", flush=True)
+                print(f"\r⏳ 距离下次保存还有: {remaining} 秒  ", end="", flush=True)
                 time.sleep(1)
 
             # 2. 倒计时结束，执行保存
-            print("\r⏳ 正在发送保存命令...   (若日志卡组不刷新了, 按 Ctrl+Q 恢复)", end="", flush=True)
+            print("\r⏳ 正在发送保存命令... " + space_str, end="", flush=True)
             keyboard.press_and_release('ctrl+s')
-            print("\r✅ 保存命令已发送!         ", end="", flush=True)
+            print("\r✅ 保存命令已发送!   " + space_str, end="", flush=True)
 
             
             # 3. 更新同一行显示“已保存”状态
             timestamp = datetime.now().strftime("%H:%M:%S")
-            print(f"\r✅ [{timestamp}] 触发保存成功!   ", end="", flush=True)
+            print(f"\r✅ [{timestamp}] 触发保存成功! " + space_str, end="", flush=True)
             
             # 4. 稍微停顿一下(0.5秒)，让用户能看清"保存成功"这几个字
             # 否则瞬间就变回倒计时了
