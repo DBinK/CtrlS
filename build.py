@@ -15,7 +15,7 @@ def build_with_nuitka():
         cmd.append("--mingw64")  # Windows 使用 MinGW64 编译器
     
     cmd.extend([
-        "--windows-console-mode=attach",  # Windows 特定选项
+        "--windows-console-mode=force",  # Windows 特定选项
         "--include-package=keyboard",
         "--output-dir=dist",
         "--output-filename=ctrls.exe",  # Windows 上添加 .exe 扩展名

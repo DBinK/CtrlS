@@ -1,12 +1,15 @@
 [project]
 name = "ctrls"
 version = "0.1.0"
-description = "Add your description here"
+description = "一个简单实用的自动保存工具，能够在后台定时发送 Ctrl+S 快捷键命令，帮助您自动保存当前工作内容，防止因意外情况导致的工作丢失。"
+
+authors = [{ name = "DBinK", email = "DBinKv1@Gmail.com" }]
+
+urls = { "Repository" = "https://github.com/DBinK/CtrlS" }
+
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "keyboard>=0.13.5",
-]
+dependencies = ["keyboard>=0.13.5"]
 
 [project.scripts]
 ctrls = "ctrls.main:main"
@@ -17,6 +20,4 @@ build-backend = "uv_build"
 
 
 [dependency-groups]
-dev = [
-    "nuitka>=2.8.9",
-]
+dev = ["nuitka>=2.8.9"]
