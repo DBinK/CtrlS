@@ -11,36 +11,48 @@
 
 ## 安装
 
-### 方法一：从源码安装
+### 方法一：直接使用编译好的可执行文件
 
-1. 确保已安装 Python 3.10 或更高版本
-2. 克隆或下载项目源码
-3. 安装依赖：
+从 [GitHub releases](https://github.com/DBinK/CtrlS/releases) 下载可执行文件
 
-```bash
-pip install keyboard
+然后就可以从命令行中运行了, 例如：
+
+```pwsh
+./ctrls.exe -t 60
 ```
 
-### 方法二：使用 pipx 安装
+### 方法二：使用 uv tool (推荐)
+
+若没有安装 uv , 可使用这个脚本安装
+
+<details>
+<summary>点击展开安装命令</summary>
 
 ```bash
-pipx install ctrls
+curl -LsSf https://gitee.com/wangnov/uv-custom/releases/download/latest/uv-installer-custom.sh | sh  # 适用于 Linux
+```
+
+```pwsh
+powershell -ExecutionPolicy Bypass -c "irm https://gitee.com/wangnov/uv-custom/releases/download/latest/uv-installer-custom.ps1 | iex"  # 适用于 Windows
+```
+
+</details>
+
+使用 uv tool 方式 (推荐使用): 
+
+```bash
+uv tool install git+https://github.com/DBinK/CtrlS.git
+```
+
+### 方法三：使用 pipx
+
+使用 pipx 方式:
+
+```bash
+pipx install git+https://github.com/DBinK/CtrlS.git
 ```
 
 ## 使用方法
-
-### 直接运行
-
-```bash
-# 使用默认间隔时间（60秒）
-python -m ctrls.main
-
-# 指定保存间隔时间（例如：30秒）
-python -m ctrls.main -t 30
-
-# 使用 --help 查看帮助信息
-python -m ctrls.main --help
-```
 
 ### 作为命令行工具运行
 
