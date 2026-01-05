@@ -12,10 +12,14 @@ def run_autosave_service(interval: int):
     """
     运行带有倒计时显示的自动保存服务。
     """
-    print("--- 自动保存工具已启动 ---")
+    print("----------------- 自动保存工具已启动 -----------------")
     print(f"设定间隔: {interval} 秒")
-    print("停止方法: Ctrl + C")
-    print("--------------------------")
+    print("停止方法: Ctrl + C, 或关闭此终端窗口")
+    print("----------------------------------------------------")
+    print("⚠️ 注意: 请务必【最小化】此终端窗口，或切换到其他软件")
+    print("如果焦点在终端窗口上, Ctrl+S 会暂停程序 (按 Ctrl+Q 恢复)")
+    print("----------------------------------------------------")
+
 
     try:
         while True:
@@ -30,9 +34,10 @@ def run_autosave_service(interval: int):
                 time.sleep(1)
 
             # 2. 倒计时结束，执行保存
-            print("\r⏳ 正在发送保存命令...   ", end="", flush=True)
+            print("\r⏳ 正在发送保存命令...   (若日志卡组不刷新了, 按 Ctrl+Q 恢复)", end="", flush=True)
             keyboard.press_and_release('ctrl+s')
             print("\r✅ 保存命令已发送!         ", end="", flush=True)
+
             
             # 3. 更新同一行显示“已保存”状态
             timestamp = datetime.now().strftime("%H:%M:%S")
@@ -50,7 +55,11 @@ def run_autosave_service(interval: int):
 # 命令行接口层
 # ==========================================
 def parse_cli_args():
-    parser = argparse.ArgumentParser(description="带倒计时的自动保存工具")
+    parser = argparse.ArgumentParser(
+        prog='CtrlS',
+        description="带倒计时的自动保存工具 - 在后台定时发送Ctrl+S命令进行保存",
+        epilog="示例: ctrls -t 30 (每30秒自动保存一次)"
+    )
     
     parser.add_argument(
         '-t', '--time', 
