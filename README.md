@@ -13,7 +13,7 @@
 
 ### 方法一：直接使用编译好的可执行文件
 
-从 [GitHub releases](https://github.com/DBinK/CtrlS/releases) 下载可执行文件
+从 [GitHub releases](https://github.com/DBinK/CtrlS/releases) 下载可执行文件 ,目前仅编译了 Windows x64 版本
 
 然后就可以从命令行中运行了, 例如：
 
