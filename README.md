@@ -72,11 +72,9 @@ ctrls -t 45
 项目提供了构建脚本，可以使用 Nuitka 将项目打包为可执行文件：
 
 ```bash
-# 确保已安装 Nuitka
-pip install nuitka
+uv sync --group dev  # 同步开发依赖
 
-# 运行构建脚本
-python build.py
+uv run build.py  # 运行构建脚本
 ```
 
 构建成功后，可执行文件将位于 `dist` 目录下。
