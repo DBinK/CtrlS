@@ -8,14 +8,18 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "keyboard" },
+]
+
+[package.dev-dependencies]
+dev = [
     { name = "nuitka" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "keyboard", specifier = ">=0.13.5" },
-    { name = "nuitka", specifier = ">=2.8.9" },
-]
+requires-dist = [{ name = "keyboard", specifier = ">=0.13.5" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "nuitka", specifier = ">=2.8.9" }]
 
 [[package]]
 name = "keyboard"
