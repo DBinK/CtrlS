@@ -1,26 +1,73 @@
-import keyboard
+import argparse
 import time
+from datetime import datetime
 
-# 这是一个死循环脚本，用于持续运行
-# 如果打包时使用了无窗口模式(-w)，需要在任务管理器中结束进程来停止
+import keyboard
 
-def run_loop(interval):
-    while True:
-        # 等待指定秒数
-        time.sleep(interval)
-        
-        # 发送组合键
-        keyboard.send('ctrl+s')
-        
-        # 可选：为了调试，可以把日志写到文件，因为打包后看不到控制台
-        # with open("log.txt", "a") as f:
-        #     f.write(f"Saved at {time.ctime()}\n")
+
+# ==========================================
+# 核心业务逻辑层
+# ==========================================
+def run_autosave_service(interval: int):
+    """
+    运行带有倒计时显示的自动保存服务。
+    """
+    print("--- 自动保存工具已启动 ---")
+    print(f"设定间隔: {interval} 秒")
+    print("停止方法: Ctrl + C")
+    print("--------------------------")
+
+    try:
+        while True:
+            # 1. 倒计时循环
+            # 从 interval 倒数到 1
+            for remaining in range(interval, 0, -1):
+                # \r : 回到当前行的开头
+                # end="": 不要输出换行符
+                # flush=True: 强制立即显示（防止输出被缓存）
+                # 字符串末尾留几个空格，是为了覆盖掉上一轮可能留下的长字符
+                print(f"\r⏳ 距离下次保存还有: {remaining} 秒   ", end="", flush=True)
+                time.sleep(1)
+
+            # 2. 倒计时结束，执行保存
+            print("\r⏳ 正在发送保存命令...   ", end="", flush=True)
+            keyboard.press_and_release('ctrl+s')
+            print("\r✅ 保存命令已发送!         ", end="", flush=True)
+            
+            # 3. 更新同一行显示“已保存”状态
+            timestamp = datetime.now().strftime("%H:%M:%S")
+            print(f"\r✅ [{timestamp}] 触发保存成功!   ", end="", flush=True)
+            
+            # 4. 稍微停顿一下(0.5秒)，让用户能看清"保存成功"这几个字
+            # 否则瞬间就变回倒计时了
+            time.sleep(0.5)
+                
+    except KeyboardInterrupt:
+        # 捕获 Ctrl+C 后，先换一行再打印退出信息，否则会跟倒计时挤在一起
+        print("\n\n程序已退出。")
+
+# ==========================================
+# 命令行接口层
+# ==========================================
+def parse_cli_args():
+    parser = argparse.ArgumentParser(description="带倒计时的自动保存工具")
+    
+    parser.add_argument(
+        '-t', '--time', 
+        type=int, 
+        default=60,
+        help="保存间隔时间（秒），默认 60"
+    )
+    
+    return parser.parse_args()
+
+# ==========================================
+# 入口
+# ==========================================
+def main():
+    args = parse_cli_args()
+    run_autosave_service(args.time)
+
 
 if __name__ == "__main__":
-    # 间隔时间 60 秒
-    INTERVAL = 3
-    
-    # 防止多重运行（简单的逻辑）
-    print(f"自动保存脚本运行中... 每 {INTERVAL} 秒触发一次 Ctrl+S")
-    
-    run_loop(INTERVAL)
+    main()
